@@ -62,7 +62,7 @@ namespace MiniLoja.Api.Controllers
             return CustomResponse(produtoViewModel);
         }
 
-        [HttpPost("Adicionar")]
+        [HttpPost("adicionar")]
         public async Task<ActionResult<ProdutoViewModel>> AdicionarAlternativo(ProdutoImagemViewModel produtoImagemViewModel)
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);

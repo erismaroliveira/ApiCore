@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using MiniLoja.Api.Data;
 using MiniLoja.Api.Extensions;
-using MiniLoja.Data.Context;
 using System.Text;
 
 namespace MiniLoja.Api.Configuration
