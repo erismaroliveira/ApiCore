@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MiniLoja.Api.ViewModels;
 using MiniLoja.Business.Interfaces;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace MiniLoja.Api.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class FornecedoresController : MainController
     {
@@ -29,6 +31,7 @@ namespace MiniLoja.Api.Controllers
             _mapper = mapper;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IEnumerable<FornecedorViewModel>> ObterTodos()
         {

@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using MiniLoja.Api.Extensions;
 using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace MiniLoja.Api.ViewModels
 {
+    [ModelBinder(typeof(JsonWithFilesFormDataModelBinder), Name = "produto")]
     public class ProdutoImagemViewModel
     {
         [Key]
