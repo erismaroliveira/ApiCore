@@ -24,7 +24,8 @@ namespace MiniLoja.Api.Controllers
                                       IFornecedorService fornecedorService,
                                       IEnderecoRepository enderecoRepository,
                                       INotificador notificador,
-                                      IMapper mapper) : base(notificador)
+                                      IMapper mapper,
+                                      IUser user) : base(notificador, user)
         {
             _fornecedorRepository = fornecedorRepository;
             _fornecedorService = fornecedorService;
