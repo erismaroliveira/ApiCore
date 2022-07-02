@@ -8,12 +8,19 @@ import { AppComponent } from './app.component';
 import { CadastroComponent } from './produtos/cadastro/cadastro.component';
 import { ProdutoService } from './produtos/services/produtoService';
 import { ListaComponent } from './produtos/lista/lista.component';
+import { LoginComponent } from './user/login/login.component';
+import { UserService } from './user/userService';
+import { MenuUserComponent } from './user/menu/menu.user.component';
+import { MenuComponent } from './base/menu/menu.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CadastroComponent,
-    ListaComponent
+    ListaComponent,
+    LoginComponent,
+    MenuUserComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,
@@ -23,7 +30,8 @@ import { ListaComponent } from './produtos/lista/lista.component';
     HttpClientModule
   ],
   providers: [
-    ProdutoService
+    ProdutoService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })

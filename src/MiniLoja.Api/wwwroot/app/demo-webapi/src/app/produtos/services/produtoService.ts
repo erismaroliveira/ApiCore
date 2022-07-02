@@ -1,21 +1,19 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 
 import { Observable } from 'rxjs';
 import { catchError, map } from "rxjs/operators";
-import { throwError } from 'rxjs';
 import { Fornecedor } from '../models/Fornecedor';
 import { Produto } from '../models/Produto';
+import { BaseService } from 'src/app/base/baseService';
 
 @Injectable()
-export class ProdutoService {
-    constructor(private http: HttpClient) { }
-
-    protected UrlServiceV1: string = "https://localhost:5001/api/";
+export class ProdutoService extends BaseService {
+    constructor(private http: HttpClient) { super() }
 
     obterTodos(): Observable<Produto[]> {
         return this.http
-            .get<Produto[]>(this.UrlServiceV1 + "produtos")
+            .get<Produto[]>(this.UrlServiceV1 + "produtos", super.ObterAuthHeaderJson())
             .pipe(
                 catchError(this.serviceError));
     }
@@ -23,64 +21,28 @@ export class ProdutoService {
     registrarProdutoAlternativo(produto: FormData): Observable<Produto> {
 
         return this.http
-            .post(this.UrlServiceV1 + 'produtos/adicionar', produto, this.ObterHeaderFormData())
+            .post(this.UrlServiceV1 + 'produtos/adicionar', produto, super.ObterHeaderFormData())
             .pipe(
-                map(this.extractData),
-                catchError(this.serviceError)
+                map(super.extractData),
+                catchError(super.serviceError)
             );
     }
 
     registrarProduto(produto: Produto): Observable<Produto> {
 
         return this.http
-            .post(this.UrlServiceV1 + 'produtos', produto, this.ObterHeaderJson())
+            .post(this.UrlServiceV1 + 'produtos', produto, super.ObterAuthHeaderJson())
             .pipe(
-                map(this.extractData),
-                catchError(this.serviceError)
+                map(super.extractData),
+                catchError(super.serviceError)
             );
     }
 
     obterFornecedores(): Observable<Fornecedor[]> {
         return this.http
-            .get<Fornecedor[]>(this.UrlServiceV1 + 'fornecedores')
+            .get<Fornecedor[]>(this.UrlServiceV1 + 'fornecedores', super.ObterAuthHeaderJson())
             .pipe(
-                catchError(this.serviceError)
+                catchError(super.serviceError)
             );
     }
-
-    protected ObterHeaderFormData() {
-        return {
-            headers: new HttpHeaders({
-                'Content-Disposition': 'form-data; name="produto"'
-            })
-        };
-    }
-
-    protected ObterHeaderJson() {
-        return {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json'
-            })
-        };
-    }
-
-    protected extractData(response: any) {
-        return response.data || {};
-    }
-
-    protected serviceError(error: Response | any) {
-        let errMsg: string;
-
-        if (error instanceof Response) {
-
-            errMsg = `${error.status} - ${error.statusText || ''}`;
-        }
-        else {
-            errMsg = error.message ? error.message : error.toString();
-        }
-
-        console.error(error);
-        return throwError(error);
-    }
-
 }

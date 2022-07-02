@@ -107,5 +107,3 @@ export class CadastroComponent implements OnInit {
     this.imageBase64 = btoa(binaryString);
   } 
 }
-
-
