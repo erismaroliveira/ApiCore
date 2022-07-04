@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using MiniLoja.Api.Controllers;
 using MiniLoja.Api.Extensions;
 using MiniLoja.Api.ViewModels;
 using MiniLoja.Business.Interfaces;
@@ -12,9 +13,10 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MiniLoja.Api.Controllers
+namespace MiniLoja.Api.V1.Controllers
 {
-    [Route("api")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}")]
     public class AuthController : MainController
     {
         private readonly SignInManager<IdentityUser> _signInManager;
@@ -23,7 +25,7 @@ namespace MiniLoja.Api.Controllers
 
         public AuthController(INotificador notificador,
                               SignInManager<IdentityUser> signInManager,
-                              UserManager<IdentityUser> userManager, 
+                              UserManager<IdentityUser> userManager,
                               IOptions<AppSettings> appSettings,
                               IUser user) : base(notificador, user)
         {
@@ -35,7 +37,7 @@ namespace MiniLoja.Api.Controllers
         [HttpPost("nova-conta")]
         public async Task<ActionResult> Registrar(RegisterUserViewModel registerUser)
         {
-            if(!ModelState.IsValid) return CustomResponse(ModelState);
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
 
             var user = new IdentityUser
             {
@@ -72,7 +74,7 @@ namespace MiniLoja.Api.Controllers
                 return CustomResponse(await GerarJwt(loginUser.Email));
             }
 
-            if(result.IsLockedOut)
+            if (result.IsLockedOut)
             {
                 NotificarErro("Usuário temporariamente bloqueado por tentativas inválidas");
                 return CustomResponse(loginUser);
